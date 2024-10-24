@@ -1,0 +1,173 @@
+@property --background {
+    syntax: "<color>";
+    initial-value: white;
+    inherits: false;
+}
+
+@property --backgroundItem {
+    syntax: "<color>";
+    initial-value: rgb(35, 35, 35);
+    inherits: false;
+}
+
+@property --textColor {
+    syntax: "<color>";
+    initial-value: black;
+    inherits: false;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.item1 {
+    grid-area: item1;
+}
+
+.item2 {
+    grid-area: item2;
+}
+
+select {
+    background: transparent;
+    border: none;
+    color: var(--textColor);
+    height: fit-content;
+    outline: none;
+    cursor: pointer;
+    padding: 3px;
+}
+
+option {
+    background: var(--backgroundItem);
+    border: none;
+    color: var(--textColor);
+    height: content;
+    outline: none;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.item3 {
+    grid-area: item3;
+}
+
+.item4 {
+    grid-area: item4;
+}
+
+.item5 {
+    grid-area: item5;
+}
+
+body {
+    background: var(--background);
+    color: var(--textColor);
+}
+
+.container {
+    padding: 20px;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: 100px 1fr 1fr 100px;
+    gap: 20px;
+    grid-template-areas: 
+    "   item2       item1       item4   "
+    "   item2       item3       item4   "
+    "   item2       item3       item4   "
+    "   item2       item5       item4   ";
+}
+
+.item {
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background: var(--backgroundItem);
+    border-radius: 20px;
+}
+
+.item::after, .item::before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent 70%, #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    z-index: -1;
+    padding: 5px;
+    top: -5px;
+    border-radius: 20px;
+    animation: 3s spin linear infinite;
+}
+
+.item::before {
+    filter: blur(1.5rem);
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    } 
+    to {
+        --angle: 360deg;
+    }
+}
+
+body:has(option[value="dark"]:checked) {
+    --background: black;
+    --textColor: white;
+    --backgroundItem: rgb(35, 35, 35);
+}
+
+body:has(option[value="white"]:checked) {
+    --background: white;
+    --textColor: black;
+    --backgroundItem: rgb(138, 138, 138);
+}
+
+@media(max-width: 768px){
+    .container {
+        padding: 20px;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 100px 1fr 75px;
+        grid-template-rows: 75px 1fr 1fr 75px;
+        gap: 20px;
+        grid-template-areas: 
+        "   item2       item1       item4   "
+        "   item2       item3       item4   "
+        "   item2       item3       item4   "
+        "   item2       item5       item4   ";
+    }
+}
+
+@media(max-width: 425px){
+    .container {
+        padding: 20px;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 75px 1fr;
+        grid-template-rows: 100px 1fr 1fr 100px;
+        gap: 20px;
+        grid-template-areas: 
+        "   item2       item1   "
+        "   item2       item3   "
+        "   item2       item3   "
+        "   item2       item5   ";
+    }
+
+    .item4 {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+}
